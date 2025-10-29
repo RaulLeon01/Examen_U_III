@@ -21,9 +21,10 @@ Desarrollar una API básica con Flask que permita:
 - descripción y características
 """
 
-from flask import Flask, jsonify, render_template_string, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__, template_folder='.', static_folder='.', static_url_path='')
+# pagina = 'E:\1-UTEZ\4-Cuatrimestre\ProgramacionRedes\Examen_U_III\src\dispositivos.html'
 
 # Diccionario inicial de dispositivos
 dispositivos = {
@@ -49,7 +50,7 @@ dispositivos = {
     }
 }
 
-# Muestrea todos los dispositivos para HTMl
+# Muestra todos los dispositivos para HTMl
 @app.route('/dispositivos_html', methods=['GET'])
 def mostrar_dispositivos_html():
     return render_template('dispositivos.html', dispositivos=dispositivos)
@@ -76,6 +77,22 @@ def agregar_dispositivo():
     dispositivos[id_dispositivo] = data
     return jsonify({"mensaje": "Dispositivo agregado con éxito", "dispositivo": data}), 201
 
+# Modifica un dispositivo existente
+@app.route('/dispositivos/<string:id>', methods=['PUT'])
+def modificar_dispositivo(id):
+    # Verifica si existe
+    if id not in dispositivos:
+        return jsonify({"error": "Dispositivo no encontrado"}), 404
+    
+    # Valida que se envien
+    if not request.json:
+        return jsonify({"error": "No se proporcionaron datos"}), 400
+    data = request.json
+    
+    # Actualiza el dispositivo con los nuevos datos
+    dispositivos[id].update(data)
+    return jsonify({"mensaje": "Dispositivo actualizado con éxito", "dispositivo": dispositivos[id]})
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug = True)
     
