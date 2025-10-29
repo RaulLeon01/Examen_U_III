@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Dispositivos de Red</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Dispositivos de Red</h1>
+
+    <div class="container">
+        {% for id, dispositivo in dispositivos.items() %}
+            <div class="dispositivo">
+                <h3>{{ dispositivo.get('nombre', 'N/A') }}</h3>
+                <p><strong>ID:</strong> {{ id }}</p>
+                <p><strong>Descripción:</strong> {{ dispositivo.get('descripcion', 'N/A') }}</p>
+                
+                <h4>Características:</h4>
+                <ul>
+                    <li><strong>IP:</strong> {{ dispositivo.get('ip', 'N/A') }}</li>
+                    <li><strong>MAC:</strong> {{ dispositivo.get('mac', 'N/A') }}</li>
+                    <li><strong>Ubicación:</strong> {{ dispositivo.get('ubicacion', 'N/A') }}</li>
+                    <li><strong>Tipo:</strong> {{ dispositivo.get('tipo', 'N/A') }}</li>
+                    <li><strong>Otros:</strong> {{ dispositivo.get('otros', 'N/A') }}</li>
+                </ul>
+            </div>
+        {% else %}
+            <p>No hay dispositivos para mostrar.</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
